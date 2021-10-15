@@ -1,23 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Switch, Route } from "react-router-dom"
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import Navbar from './components/Navbar';
+import { persistUserInfoAfterRefresh } from "./store/user/actions"
 
 function App() {
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(persistUserInfoAfterRefresh)
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar/>
+      <Switch>
+        <Route exact path="/" component={HomePage} />
+        <Route path="/login" component={LoginPage}/>
+      </Switch>
     </div>
   );
 }
